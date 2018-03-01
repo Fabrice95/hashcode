@@ -30,14 +30,14 @@ def start():
         for i in range(nN):
             lines.append( [int(n) for n in myfile.readline().split()] )
             
-        print(lines)
+ #       print(lines)
         
         
     with open(sys.argv[2], "r") as myfile2:
         #lecture du output
         for i in range(nF):
             output.append( [int(n) for n in myfile2.readline().split()][1::] )
-        print(output)
+#        print(output)
         
         print("")
         test()
@@ -60,29 +60,37 @@ def test ():
 		vx = 0 # position x
 		vy = 0 # position y
 		for ride in output[i]: # pour chaque course
-			lineride = lines[ride]
-			print(lineride)
+			lineride = lines[ride-1]
+			print("ride " + str(ride) + "  " + str(lineride) + " "  + str(vx) + " : " + str(vy))
 			
 			# temps pour arriver au lieu de départ
 			distance = abs( lineride[0] - vx) + abs(lineride[1] - vy)
 			time += distance
+			print("duree pour aller au départ " + str(distance) + " débute a "+ str(time))
 			
 			if lineride[4] > time :
 				time = lineride[4]
 				points+= nB
+				
+			print("time vaut " + str(time))
 			
 			distance = abs( lineride[0] - lineride[2]) + abs(lineride[1] - lineride[3])
+			print("parcourt " + str( abs( lineride[0] - lineride[2])) + " et " + str( abs(lineride[1] - lineride[3])))
 			if time + distance > lineride[5]:
-				print ("ERREUR arrive trop tard voiture " +str(i) + " course " + str(ride))
+				print ("ERREUR arrive trop tard voiture " +str(i) + " course " + str(ride) + " arrivé a " + str(time+distance) + " et devrait arriver a " + str(lineride[5]))
 				sys.exit(1)
 
 			time += distance
 			
-			#print("voiture " + str(i) + " à la course " + str(ride) + " au temps " + str(time))
+			
+			print("voiture " + str(i) + " à la course " + str(ride) + " au temps " + str(time))
 			points +=distance
 			
 			vx = lineride[2]
 			vy = lineride[3]
+			
+			print("")
+			print("")
 	print ("Points obtenus " + str(points))
     
         
