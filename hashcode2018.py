@@ -46,6 +46,12 @@ def fonction ():
 def output():
     global videos
     #print
+    with open("out", "w") as out:
+        for i in range(nF):
+            out.write(`i`+" ")
+            for e in #list_of_rides:
+                out.write(`e`+" ")
+
         
         
   
