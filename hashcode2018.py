@@ -27,6 +27,7 @@ def start():
             lines.append( [int(n) for n in myfile.readline().split()] )
             
         print(lines)
+        return lines, nR, nC, nF, nN, nB, nT
     # Launch
     #fonction()
     #output()
