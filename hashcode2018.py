@@ -18,9 +18,14 @@ def start():
     # Open input file
     with open(sys.argv[1], "r") as myfile:
         nR, nC, nF, nN, nB, nT = [int(n) for n in myfile.readline().split()]
-
+        
+        
+        #data = ['a'=0,'b'=0,'x','y','s','f'} for i in range(0,N)]
         for i in range(nN):
-            lines.append(myfile.readline().split())
+#			a, b, x, y, s, f = [int(n) for n in myfile.readline().split()]
+#			lines.append(['a': a ,'b': b,'x':x,'y':y,'s':s,
+            lines.append( [int(n) for n in myfile.readline().split()] )
+            
         print(lines)
     # Launch
     #fonction()
