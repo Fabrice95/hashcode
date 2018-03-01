@@ -3,113 +3,89 @@
 import sys
 
 
-videos = []
-caches = []
-requests = []
-endpoints = []
+lines = []
+output = []
 
+nR = 0
+nC = 0
+nF = 0
+nN = 0
+nB = 0
+nT = 0
 
 def start():
 
-    global videos, requests, caches, endpoints
+    global grid_rows_R, grid_colums_C, vehicles_F, rides_N, bonus_B, steps_T
 
     # Check arguments 
     if (len(sys.argv) < 2):
-        print "usage: {} <input file>".format(sys.argv[0])
+        print("usage: {} <input file>".format(sys.argv[0]))
         sys.exit(1)
 
     # Open input file
     with open(sys.argv[1], "r") as myfile:
-		# regarde les conditions initiales 1ere ligne
-        nvideos, nendpoints, nreqdesc, ncaches, capcaches = [int(n) for n in myfile.readline().split()]
-        videos = [int(n) for n in myfile.readline().split()]
-
-        # Init caches
-        caches = [{'videos':[], 'freespace': capcaches} for i in range(0,capcaches)]
-
-        # Read endpoints
-        for i in range(0,nendpoints):
-            latdc, ncachep = [int(n) for n in myfile.readline().split()]
-            endpoint = {'caches':[],'latdc': latdc}
-            # Read endpoint caches
-            for j in range(0,ncachep):
-                idcache, latcache = [int(n) for n in myfile.readline().split()]
-                endpoint['caches'].append((idcache, latcache))
-
-            endpoints.append(endpoint)
-
-        # Read requests
-        for i in range(0,nreqdesc):
-            idvideo, idendpoint, nbrequests = [int(n) for n in myfile.readline().split()]
-            requests.append((idvideo, idendpoint, nbrequests))
-
+        nR, nC, nF, nN, nB, nT = [int(n) for n in myfile.readline().split()]
+        
+        
+        #data = ['a'=0,'b'=0,'x','y','s','f'} for i in range(0,N)]
+        for i in range(nN):
+            lines.append( [int(n) for n in myfile.readline().split()] )
+            
+        print(lines)
+        
+        #lecture du output
+        for i in range(nF):
+            lines.append( [int(n) for n in myfile.readline().split()] )
+        
+        
+        test()
     # Launch
-    fonction()
-    output()
+    #fonction()
+    #output()
 
-def verification():
-	with open(sys.argv[1], "r") as myfile:
-		for i in range(1, N+1): # pour les voitures de 1 à N 
-			rides = myfile.readLine().split()
-
-
-def fonction ():
-    global videos,caches, requests, endpoints 
-
-    # Optimizations 
-    requests.sort(key = lambda tup : tup[2])
-    opt_latence_endpoint() # optimise par les latences
-
-    for req in range(0,len(requests)):
-        taille_vid = videos[requests[req][0]] 
-        idendpoint = requests[req][1]
-        endpoint = endpoints[idendpoint]
-         
-
-        ispresent = False
-        for idcache, latcache in endpoint['caches']:
-            if requests[req][0] in caches[idcache]['videos']:
-                ispresent = True
-                break
-        
-        if ispresent:
-            continue
-        
-        for idcache, latcache in endpoint['caches']:
-            cache = caches[idcache]
-            if (cache['freespace'] >= taille_vid):
-                caches[idcache]['videos'].append(requests[req][0])
-                caches[idcache]['freespace'] -= taille_vid
-                break
-        
-
-
-
-def opt_latence_endpoint():
-    global endpoints
-    for idendpoint in range(0,len(endpoints)):
-        endpoints[idendpoint]['caches'].sort( key = lambda tup : tup[1] ) 
     
     
+	
+
+def test ():
+    global lines
+     
+	distance = 0    
+	points = 0
+    # code
+    for i in range(nF) : #pour chaque voiture
+		time = 0 # time au début	
+		vx = 0 # position x
+		vy = 0 # position y
+		for ride in output[i]: # pour chaque course
+			lineride = lines[ride]
+			
+			# temps pour arriver au lieu de départ
+			distance = abs( lineride[0] - vx) + abs(lineride[1] - vy)
+			time += distance
+			
+			distance = abs( lineride[0] - lineride[2]) + abs(lineride[1] - lineride[3])
+			if time + distance > lineride[5]:
+				print "ERREUR arrive trop tard voiture " + i + " course " + ride
+				sys.exit(1)
+			if time == lineride[4] :
+				points += nB
+			time += distance
+			points +=distance
+			
+			vx = lineride[2]
+			vy = lineride[3]
+    
+    print "Points obtenus" + points
     
         
 def output():
-    global caches
-    nb_caches = 0
-    for cache in caches :
-        if cache['videos']:
-            nb_caches += 1
-
-    print nb_caches
-
-    for idcache in range(0,len(caches)) :
-        if caches[idcache]['videos']:
-            print idcache,
-            for video in caches[idcache]['videos']:
-                print video,
-            print ''
-            
+    global videos
+    #print
         
         
+  
+start()
+
   
 start()
