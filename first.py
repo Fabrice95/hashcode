@@ -10,6 +10,9 @@ import sys
 
 input_file_name = "b_should_be_easy.in"
 #input_file_name = "a_example.in"
+#input_file_name = "c_no_hurry.in"
+#input_file_name = "d_metropolis.in"
+#input_file_name = "e_high_bonus.in"
 
 sys.argv = ["hashcode2018", input_file_name]
 #from hashcode2018 import *
@@ -48,7 +51,10 @@ print("===============")
 for i in range(nF):
     print(len(rides[i]), " ".join(list(map(str, rides[i]))))
 
-
-
+with open(sys.argv[1] + ".out", "w") as myfile:
+    for i in range(nF):
+        #print(len(rides[i]), " ".join(list(map(str, rides[i]))))
+        res = str(len(rides[i])) +  " "+ " ".join(list(map(str, rides[i]))) + "\n"
+        myfile.write(res)
 
     
